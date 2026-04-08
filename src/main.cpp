@@ -18,23 +18,10 @@ int main(int argc, char* argv[])
 
         risc::Encoder encoder;
         nlohmann::ordered_json output_json;
-        encoder.encode(input_json, output_json);
 
-        std::ofstream output_file(argv[2]);
-        output_file << "[\n";
-        for (size_t i = 0; i < output_json.size(); ++i) 
-        {
-            output_file << "  {\n";
-            output_file << "    \"insn\": " << output_json[i]["insn"].dump() << ",\n";
-            output_file << "    \"fields\": [\n";
-            auto& fields = output_json[i]["fields"];
-            for (size_t j = 0; j < fields.size(); ++j) 
-            {
-                output_file << "      " << fields[j].dump() << (j < fields.size() - 1 ? ",\n" : "\n");
-            }
-            output_file << "    ]\n  }" << (i < output_json.size() - 1 ? ",\n" : "\n");
-        }
-        output_file << "]\n";
+        encoder.encode(input_json, output_json);
+        std::ofstream output_file = risc::create_file(output_json, argv[2]);
+        if (!output_file.is_open()) throw std::runtime_error("Cannot open output file.");
 
         std::cout << "Success! Encoded instructions saved to " << argv[2] << std::endl;
 
