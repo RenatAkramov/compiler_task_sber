@@ -1,0 +1,22 @@
+{
+  "length": "32",
+  "fields": [
+    { "RS": "5" },
+    { "RT": "5" },
+    { "RD": ">=4" }
+  ],
+  "instructions": [
+    {
+      "format": "THREE_OP",
+      "insns": ["add"],
+      "operands": ["RS", "RT", "RD"],
+      "comment": "Использует все три регистра."
+    },
+    {
+      "format": "TWO_OP",
+      "insns": ["move_alt"],
+      "operands": ["RS", "RT"],
+      "comment": "Пропускает RT (который должен быть в середине)."
+    }
+  ]
+}
